@@ -20,6 +20,10 @@ class App extends Component {
     this.findWeatherForCoords = this.findWeatherForCoords.bind(this)
   }
 
+  componentDidMount(){
+    console.log('wow super unsafe key testing', REACT_APP_OPENCAGE_KEY)
+  }
+
   handleUserInputValue(event){
     this.setState({ userInputValue: event.target.value })
   }
