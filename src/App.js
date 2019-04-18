@@ -40,25 +40,23 @@ class App extends Component {
   }
 
   userInputSubmit(event) {
-    console.log('submitted data', this.state.userInputValue)
-    axios.get('https://api.opencagedata.com/geocode/v1/json?', {
-      params: {
-        key: encodeURIComponent(process.env.REACT_APP_OPENCAGE_KEY),
-        q: encodeURIComponent('Vancouver, BC, Canada'),
-        no_annotations: 1,
-        pretty: 1
-      }
-    })
-      .then(res => {
-        const coords = res && res.data && res.data.results && res.data.results[0] && res.data.results[0].geometry ? res.data.results[0].geometry : null;
-        console.log('what did you give me', res)
-        this.setState({ dataReturned: coords })
-        return coords;
-      })
-      .then(coords => {
-        this.findWeatherForCoords(coords.lat, coords.lng)
-      })
     event.preventDefault();
+
+    fetch('/.netlify/functions/getLocation', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        locationQuery: this.state.userInputValue
+      })
+    }).then(res => res.json())
+      .then(coords => {
+        console.log('lambda response?', coords)
+        this.setState({ coordsReturned: coords })
+      })
+      .catch(err => console.log('oops error', err))
   }
 
   render() {
@@ -73,7 +71,7 @@ class App extends Component {
               submitFn={this.userInputSubmit} />} 
         />
 
-        {this.state.dataReturned && <code>{JSON.stringify(this.state.dataReturned)}</code>}
+        {this.state.coordsReturned && <code>{JSON.stringify(this.state.coordsReturned)}</code>}
       </div>
     );
   }
