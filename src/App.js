@@ -21,7 +21,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    console.log('wow super unsafe key testing', REACT_APP_OPENCAGE_KEY)
+    console.log('wow super unsafe key testing', process.env.REACT_APP_OPENCAGE_KEY)
   }
 
   handleUserInputValue(event){
