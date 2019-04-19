@@ -84,8 +84,8 @@ class App extends Component {
           />
         </GeoLocation> */}
 
-        {this.state.coordsReturned && <p><code>{this.state.coordsReturned}</code></p>}
-        {this.state.weatherReport && <p><code>{this.state.weatherReport}</code></p>}
+        {this.state.coordsReturned && <p><code>{JSON.stringify(this.state.coordsReturned)}</code></p>}
+        {this.state.weatherReport && <p><code>{JSON.stringify(this.state.weatherReport)}</code></p>}
       </div>
     );
   }

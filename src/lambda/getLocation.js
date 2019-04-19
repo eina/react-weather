@@ -1,8 +1,16 @@
+require('dotenv').config();
 const axios = require('axios');
 
 exports.handler = (event) => {
   // console.log('hello???', JSON.parse(event.body))
   const data = JSON.parse(event.body);
+  if (event.httpMethod !== 'POST' || !event.body) {
+    return {
+      statusCode,
+      headers,
+      body: {}
+    };
+  }
 
   if(data && data.locationQuery) {
     return axios.get('https://api.opencagedata.com/geocode/v1/json?', {

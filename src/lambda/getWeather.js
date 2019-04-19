@@ -1,3 +1,4 @@
+require('dotenv').config();
 const axios = require('axios');
 
 exports.handler = (event) => {
@@ -5,6 +6,14 @@ exports.handler = (event) => {
     lat = encodeURIComponent(data.lat),
     lng = encodeURIComponent(data.lng),
     reqKey = encodeURIComponent(process.env.REACT_APP_DARK_SKY_KEY);
+
+  if (event.httpMethod !== 'POST' || !event.body) {
+    return {
+      statusCode,
+      headers,
+      body: {}
+    };
+  }
 
   if(lat && lng) {
     return axios.get(`https://api.darksky.net/forecast/${reqKey}/${lat},${lng}`, {
