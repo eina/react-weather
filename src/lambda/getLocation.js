@@ -1,5 +1,6 @@
 require('dotenv').config();
 const axios = require('axios');
+const https = require('https');
 
 exports.handler = (event) => {
   const data = event.body && event.body.locationQuery ? event.body.locationQuery : null;
@@ -14,24 +15,16 @@ exports.handler = (event) => {
   })
     .then(res => {
       const coords = res && res.data && res.data.results && res.data.results[0] && res.data.results[0].geometry ? res.data.results[0].geometry : null;
-      return Promise.resolve({ 
+      return Promise.resolve({
         statusCode: 200,
         body: JSON.stringify(coords)
       })
     })
     .catch(err => {
       return ({
-        statusCode: 200,
+        statusCode: 400,
         body: err
       })
     })
-
-
-  // return callback(null, {
-  //   statusCode: 200,
-  //   body: JSON.stringify({
-  //     data: 'some string pls'
-  //   })
-  // })
 }
 

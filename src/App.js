@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import './App.css';
 import GeoLocation from './components/GeoLocation'
 import UserInputLocation from './components/UserInputLocation';
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
-  
+
     this.state = {
       userInputValue: '',
       coordsReturned: null,
@@ -17,27 +16,34 @@ class App extends Component {
 
     this.userInputSubmit = this.userInputSubmit.bind(this);
     this.handleUserInputValue = this.handleUserInputValue.bind(this)
-    this.findWeatherForCoords = this.findWeatherForCoords.bind(this)
   }
 
-  handleUserInputValue(event){
+  handleUserInputValue(event) {
     this.setState({ userInputValue: event.target.value })
   }
 
-  findWeatherForCoords(lat, long) {
-    console.log('what is the request url', `https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/${lat},${long}`)
-    axios.get(`https://api.darksky.net/forecast/${process.env.REACT_APP_DARK_SKY_KEY}/${lat},${long}`, {
-      params: {
-        exclude: 'minutely,hourly,daily,flags'
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      }
-    }).then(res => {
-      console.log('what is the weather report returned', res)
-    })
+  findWeather(coords) {
+    console.log('hi coords', coords)
+    if (coords.lat !== null && coords.lng !== null) {
+      console.log('go fetch!')
+      fetch('/.netlify/functions/getWeather', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          lat: coords.lat,
+          lng: coords.lng
+        })
+      })
+      .then(weather => {
+        console.log('what is the weather response', weather)
+      })
+
+    }
   }
+
 
   userInputSubmit(event) {
     event.preventDefault();
@@ -55,6 +61,7 @@ class App extends Component {
       .then(coords => {
         console.log('lambda response?', coords)
         this.setState({ coordsReturned: coords })
+        this.findWeather(coords)
       })
       .catch(err => console.log('oops error', err))
   }
@@ -65,13 +72,14 @@ class App extends Component {
         <p>something something something</p>
 
         <GeoLocation
-          userInput={<UserInputLocation 
-              userInputValue={this.state.userInputValue} 
-              handleUserInputValue={this.handleUserInputValue}
-              submitFn={this.userInputSubmit} />} 
+          userInput={<UserInputLocation
+            userInputValue={this.state.userInputValue}
+            handleUserInputValue={this.handleUserInputValue}
+            submitFn={this.userInputSubmit} />}
         />
 
-        {this.state.coordsReturned && <code>{JSON.stringify(this.state.coordsReturned)}</code>}
+        {this.state.coordsReturned && <p><code>{JSON.stringify(this.state.coordsReturned)}</code></p>}
+        {this.state.weatherReport && <p><code>{JSON.stringify(this.state.weatherReport)}</code></p>}
       </div>
     );
   }
