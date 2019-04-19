@@ -19,6 +19,7 @@ class App extends Component {
   }
 
   handleUserInputValue(event) {
+    console.log('are youregistering????', event.target.value)
     this.setState({ userInputValue: event.target.value })
   }
 
@@ -35,8 +36,9 @@ class App extends Component {
         body: JSON.stringify({...coords})
       })
         .then(weather => weather.json())
-        .then(returned => {
-          console.log('what is the response', returned)
+        .then(weatherReport => {
+          console.log('what is the response', weatherReport)
+          this.setState({ weatherReport })
         })
 
     }
@@ -45,6 +47,8 @@ class App extends Component {
 
   userInputSubmit(event) {
     event.preventDefault();
+
+    console.log('wtf are you reporting', this.state.userInputValue)
 
     fetch('/.netlify/functions/getLocation', {
       method: 'POST',
@@ -56,10 +60,10 @@ class App extends Component {
         locationQuery: this.state.userInputValue
       })
     }).then(res => res.json())
-      .then(coords => {
-        console.log('lambda response?', coords)
-        this.setState({ coordsReturned: coords })
-        return this.findWeather(coords)
+      .then(coordsReturned => {
+        console.log('lambda response?', coordsReturned)
+        this.setState({ coordsReturned })
+        return this.findWeather(coordsReturned)
       })
       .catch(err => console.log('oops error', err))
   }
