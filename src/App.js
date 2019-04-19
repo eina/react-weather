@@ -48,22 +48,33 @@ class App extends Component {
   userInputSubmit(event) {
     event.preventDefault();
 
-    fetch('/.netlify/functions/getLocation', {
+    fetch('/.netlify/functions/getWeather', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        locationQuery: this.state.userInputValue
+        lat: 51.3258094,
+        lng: 11.3400106
       })
-    }).then(res => res.json())
-      .then(coords => {
-        console.log('lambda response?', coords)
-        this.setState({ coordsReturned: coords })
-        this.findWeather(coords)
-      })
-      .catch(err => console.log('oops error', err))
+    })
+    // fetch('/.netlify/functions/getLocation', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     locationQuery: this.state.userInputValue
+    //   })
+    // }).then(res => res.json())
+    //   .then(coords => {
+    //     console.log('lambda response?', coords)
+    //     this.setState({ coordsReturned: coords })
+    //     this.findWeather(coords)
+    //   })
+    //   .catch(err => console.log('oops error', err))
   }
 
   render() {
