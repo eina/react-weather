@@ -23,6 +23,7 @@ exports.handler = (event) => {
         }
       })
       .catch(err => {
+        console.log('error', err)
         return ({
           statusCode: 400,
           body: JSON.stringify(err)
