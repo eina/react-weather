@@ -19,7 +19,6 @@ class App extends Component {
   }
 
   handleUserInputValue(event) {
-    console.log('are youregistering????', event.target.value)
     this.setState({ userInputValue: event.target.value })
   }
 
@@ -47,8 +46,6 @@ class App extends Component {
 
   userInputSubmit(event) {
     event.preventDefault();
-
-    console.log('wtf are you reporting', this.state.userInputValue)
 
     fetch('/.netlify/functions/getLocation', {
       method: 'POST',
