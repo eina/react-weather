@@ -7,7 +7,7 @@ class UserInputLocation extends Component {
     return (
       <form onSubmit={submitFn}>
         <label>
-          <span>Enter a location</span>
+          <span>What's the weather like in</span>
           <input type="text" value={userInputValue} onChange={handleUserInputValue}/>
         </label>
 

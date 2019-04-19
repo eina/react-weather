@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import GeoLocation from './components/GeoLocation'
+// import GeoLocation from './components/GeoLocation'
 import UserInputLocation from './components/UserInputLocation';
 
 class App extends Component {

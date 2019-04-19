@@ -25,7 +25,7 @@ exports.handler = (event) => {
       .catch(err => {
         return ({
           statusCode: 400,
-          body: err
+          body: JSON.stringify(err)
         })
       })
   } else {

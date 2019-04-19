@@ -2,7 +2,7 @@ require('dotenv').config();
 const axios = require('axios');
 
 exports.handler = (event) => {
-  console.log('hello???', JSON.parse(event.body))
+  // console.log('hello???', JSON.parse(event.body))
   const data = JSON.parse(event.body);
 
   if(data && data.locationQuery) {
@@ -25,7 +25,7 @@ exports.handler = (event) => {
       .catch(err => {
         return ({
           statusCode: 400,
-          body: err
+          body: JSON.stringify(err)
         })
       })
   } else {
