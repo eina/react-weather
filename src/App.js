@@ -70,12 +70,19 @@ class App extends Component {
       <div className="App">
         <p>something something something</p>
 
-        <GeoLocation
-          userInput={<UserInputLocation
+        <UserInputLocation
+          userInputValue={this.state.userInputValue}
+          handleUserInputValue={this.handleUserInputValue}
+          submitFn={this.userInputSubmit}
+        />
+
+        {/* <GeoLocation>
+          <UserInputLocation
             userInputValue={this.state.userInputValue}
             handleUserInputValue={this.handleUserInputValue}
-            submitFn={this.userInputSubmit} />}
-        />
+            submitFn={this.userInputSubmit} 
+          />
+        </GeoLocation> */}
 
         {this.state.coordsReturned && <p><code>{JSON.stringify(this.state.coordsReturned)}</code></p>}
         {this.state.weatherReport && <p><code>{JSON.stringify(this.state.weatherReport)}</code></p>}

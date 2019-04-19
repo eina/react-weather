@@ -6,28 +6,29 @@ class GeoLocation extends React.Component {
     // console.log('geolocation props', this.props)
   }
 
-  render() {
-    let { isGeolocationAvailable, isGeolocationEnabled, coords, userInput } = this.props;
-
+  displayErrors({ isGeolocationAvailable, isGeolocationEnabled}) {
     if (!isGeolocationAvailable) {
+      return <p>Your browser currently doesn't support GeoLocation</p>
+    }
+    if (!isGeolocationEnabled) {
+      return <p>Your browser currently doesn't have GeoLocation enabled</p>
+    }
+  }
+
+  render() {
+    let { isGeolocationAvailable, isGeolocationEnabled, coords, children } = this.props;
+
+    if(!isGeolocationEnabled || !isGeolocationAvailable) {
       return (
         <div>
-          <p>browser doesn't support geolocation</p>
-          {userInput}
-        </div>
-      )
-    } 
-    else if (!isGeolocationEnabled) {
-      return (
-        <div>
-          <p>geolocation is not enabled</p>
-          {userInput}
+          {this.displayErrors(this.props)}
+          {children}
         </div>
       )
     }
     else if (coords) {
       if(Object.keys(coords).length === 0) {
-        return userInput
+        return children
       }
       return <code>{JSON.stringify(coords, null, 2)}</code>
     }
@@ -41,5 +42,5 @@ export default geolocated({
   positionOptions: {
     enableHighAccuracy: false,
   },
-  // userDecisionTimeout: 5000,
+  userDecisionTimeout: 5000,
 })(GeoLocation)
