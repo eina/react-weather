@@ -1,4 +1,3 @@
-require('dotenv').config();
 const axios = require('axios');
 
 exports.handler = (event) => {
@@ -26,7 +25,7 @@ exports.handler = (event) => {
         console.log('error', err)
         return ({
           statusCode: 400,
-          body: JSON.stringify(err)
+          body: err
         })
       })
   } else {
